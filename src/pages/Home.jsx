@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import CountryCard from "../components/CountryCard"
 import SearchBar from "../components/SearchBar";
 
 export default function Home(){
     const [countries, setCountries] = useState([]);
+    const [region, setRegion] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(""); 
     const [search, setSearch] = useState("");
     const [darkMode, setDarkMode] = useState(false);
-
-    const [searchParams, setSearchParams] = useSearchParams();
-    const region = searchParams.get("region") || "";
 
     useEffect(() => {
         fetch("https://restcountries.com/v3.1/all?fields=name,flags,population,region,capital,cca3")
@@ -32,15 +29,6 @@ export default function Home(){
         }); 
     }, []);
 
-    const handleRegionChange = (e)=> {
-        const selectedRegion = e.target.value;
-        if (selectedRegion){
-            setSearchParams ({region: selectedRegion});
-        }else{
-            setSearchParams({})
-        }
-    }; 
-
     const filteredCountries = countries.filter(country => {
         const matchSearch = (country.name?.common || "").toLowerCase().includes((search || "").toLowerCase());
         const matchRegion = !region || country.region === region;
@@ -57,7 +45,7 @@ export default function Home(){
         </div>
         <SearchBar search = {search} setSearch={setSearch} />
         <div className="region-filter">
-            <select value={region} onChange={handleRegionChange}>
+            <select value={region} onChange={(e)=> { setRegion(e.target.value)}}>
                 <option value="">All Regions</option>
                 <option value="Africa">Africa</option>
                 <option value="Americas">Americas</option>
