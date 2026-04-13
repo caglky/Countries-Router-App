@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
+export default function CountryCard ({ country, basePath = "/country" }){
 
-export default function CountryCard ({ country }){
+
     return (
         <div className="country-card">
             <img 
@@ -12,7 +13,7 @@ export default function CountryCard ({ country }){
             <p>Population: {country.population?.toLocaleString()}</p>
             <p>Region: {country.region}</p>
 
-            <Link to={`/country/${country.cca3}`}>See Details</Link>
+            <Link to={`${basePath}/${country.cca3}`}>See Details</Link>
         </div>
     );
 }
