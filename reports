@@ -1,0 +1,64 @@
+## Countries-Router-App Notes 
+
+StrictMode -> Hataları fark etmeye yardımcı mod
+
+* BrowserRouter 
+React Router tarayıcı URL'sini takip etmesini sağlayan komut. Route, Routes, Link, useParams, useSearchParams'ın düzgün açlışmasını sağlar. 
+- URL değişimini dinler
+- React Router'ın client-side routing yapmasına izin verir. 
+- SPA sağlar 
+
+Route -> URL-component eşleşmesi sağlar. 
+:code -> dinamik route, yani sabit değil, sonradan gelecek değerle değişicek. 
+
+* import { Link } from "react-router-dom";
+Neden <a> yerine Link kullandık?
+Link:
+- Sayfayı yenilemez 
+- React Router üzerinden client-side navigation yapar. 
+
+useEffect -> API çağrısı için kullandık 
+
+useSearchParams -> URL'deki query param'Ları okumak ve değiştirmek için kullandık.
+```bash
+const [searchParams, setSearchParams] = useSearchParams();
+const region = searchParams.get("region") || "";
+``` 
+örnek : URL -> /?region=Asia ise region = "Asia"
+
+## Questions
+
+1) /country/turkey URL'sini gidildiğinde ne olur?
+
+- React Router route'u eşleştirir.
+- CountryDetail açılır 
+- useParams() ile code alınır
+- fetch ile detay verisi çekilir
+- loading bittikten sonra detay gösterilir.
+
+2) useParams nasıl çalışır?
+
+Route içinde tanımlanan dinamik parçaları URL'den alır.
+:code -> dinamik parametredir.
+
+``` bash 
+const {code} = useParams(); 
+```
+yazarak değer alınır.
+
+3) Link neden a etiketi yerine kullanılır?
+Çünkü React bir SPA uygulaması.
+<a> etiketi kullanılırsa:
+- Tarayıcı tam sayfa yeniler
+- Server'a yeni istek gider
+- SPA akışı bozulur 
+
+Ama Link kullanılırsa:
+
+- URL değişir.
+- Sayfa reload olmaz
+- Sadece component render eder.
+
+4) Kullanıcı direkt URL'e giderse ne olur?
+Kullanıcı geçerli bir route girerse, React Router onu eşleştirir ve ilgili component açılır.
+Geçersiz ise NotFound sayfasına gider.
